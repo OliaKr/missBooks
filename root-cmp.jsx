@@ -1,3 +1,6 @@
+const Router = ReactRouterDOM.HashRouter
+const { Route, Routes } = ReactRouterDOM
+
 const { useState } = React
 import {Home} from './pages/home.jsx'
 import {About} from './pages/about.jsx'
