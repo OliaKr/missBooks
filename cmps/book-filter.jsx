@@ -9,6 +9,7 @@ export function BookFilter({onSetFilter}) {
 
     useEffect(() => {
         onSetFilter(filterByToEdit)
+        
     }, [filterByToEdit])
 
     function handleChange({ target }) {

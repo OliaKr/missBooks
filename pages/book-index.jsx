@@ -10,9 +10,9 @@ import {UserMsg} from '../cmps/user-msg.jsx'
 export function BookIndex() {
     const [filterBy, setFilterBy] = useState(bookService.getDefaultFilter())
     const [books, setBooks] = useState([])
-    const [selectedBook, setSelectedBook] = useState(null)
+    // const [selectedBook, setSelectedBook] = useState(null)
     const [userMsg, setUserMsg] = useState('remove book')
-    console.log('selected', selectedBook);
+  
 
     useEffect(() => {
         console.log('Loading books...');
@@ -45,12 +45,12 @@ export function BookIndex() {
             })
     }
 
-    function onSelectBook(bookId) {
-        console.log('bookId', bookId);
-        bookService.get(bookId).then((book) => {
-            setSelectedBook(book)
-        })
-    }
+    // function onSelectBook(bookId) {
+    //     console.log('bookId', bookId);
+    //     bookService.get(bookId).then((book) => {
+    //         setSelectedBook(book)
+    //     })
+    // }
 
     function flashMsg(msg) {
         setUserMsg(msg)
@@ -65,18 +65,18 @@ export function BookIndex() {
 
     return <section className="book-index ">
         {userMsg && <UserMsg msg={userMsg} />}
-        {!selectedBook && <div>
-            <h1>Hello library!</h1>
+        <div className="full main-layout">
+            {/* <h1>Hello library!</h1> */}
             {/* {JSON.stringify(books)} */}
             <BookFilter onSetFilter={onSetFilter} />
-            <BookList books={books} onRemoveBook={onRemoveBook} onSelectBook={onSelectBook} />
+            <BookList books={books} onRemoveBook={onRemoveBook}  />
 
-        </div>}
-        {selectedBook && <BookDetails
+        </div>
+        {/* {selectedBook && <BookDetails
             book={selectedBook}
             onGoBack={() => setSelectedBook(null)}
 
-        />}
+        />} */}
 
     </section>
 
