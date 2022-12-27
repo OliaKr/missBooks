@@ -4,6 +4,23 @@
   padding: 1em;
 }
 
+.app-nav {
+  display: flex;
+  gap: 15px;
+  padding: 0.5rem;
+}
+
+.app-header .header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.app-header .app-nav .active {
+  color: lightgrey;
+
+}
+
 @media(max-width: 720px) {
   .app-header {
     color: var(--clr2bg);

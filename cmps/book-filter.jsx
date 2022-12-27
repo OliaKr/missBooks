@@ -4,6 +4,7 @@ const { useState, useEffect } = React
 export function BookFilter({onSetFilter}) {
 
     const [filterByToEdit, setFilterByToEdit] = useState(bookService.getDefaultFilter())
+    
     // console.log('filterByToEdit', filterByToEdit);
 
     useEffect(() => {
@@ -28,6 +29,7 @@ export function BookFilter({onSetFilter}) {
         
     }
 
+    
     // function handleNameChange(ev) {
     //     console.log('ev', ev)
     //     const { value } = ev.target

@@ -1,13 +1,18 @@
 const { useState, useEffect } = React
 import { bookService } from '../services/book.service.js'
-import { BookList} from '../cmps/book-list.jsx';
+import { BookList } from '../cmps/book-list.jsx';
 import { BookFilter } from '../cmps/book-filter.jsx';
+import { BookDetails } from './book-details.jsx';
+import {UserMsg} from '../cmps/user-msg.jsx'
+
 
 
 export function BookIndex() {
     const [filterBy, setFilterBy] = useState(bookService.getDefaultFilter())
-
     const [books, setBooks] = useState([])
+    const [selectedBook, setSelectedBook] = useState(null)
+    const [userMsg, setUserMsg] = useState('remove book')
+    console.log('selected', selectedBook);
 
     useEffect(() => {
         console.log('Loading books...');
@@ -15,33 +20,66 @@ export function BookIndex() {
     }, [filterBy])
 
     function loadBooks() {
-        
+
         bookService.query(filterBy).then(booksToUpdate => {
             // console.log("booksToUpdate",booksToUpdate);
             setBooks(booksToUpdate)
             // console.log('books after setState', books);
         })
     }
-    
+
 
     function onSetFilter(filterByFromFilter) {
         // console.log('filterBy from bookIndex', filterBy);
         setFilterBy(filterByFromFilter)
+
+    }
+
+    function onRemoveBook(bookId) {
+        bookService.remove(bookId)
+            .then(() => {
+                const updateBooks = books.filter(book => book.id !== bookId)
+                setBooks(updateBooks)
+                flashMsg('Book removed!')
+                
+            })
+    }
+
+    function onSelectBook(bookId) {
+        console.log('bookId', bookId);
+        bookService.get(bookId).then((book) => {
+            setSelectedBook(book)
+        })
+    }
+
+    function flashMsg(msg) {
+        setUserMsg(msg)
+        setTimeout(() => {
+            setUserMsg('')
+        }, 3000)
         
     }
 
-    // console.log('filterBy from bookIndex', filterBy);
+    console.log('user msg', userMsg);
     // console.log('books', books);
 
     return <section className="book-index ">
-        <h1>Hello library!</h1>
-        {/* {JSON.stringify(books)} */}
-        <BookFilter onSetFilter={onSetFilter}/>
+        {userMsg && <UserMsg msg={userMsg} />}
+        {!selectedBook && <div>
+            <h1>Hello library!</h1>
+            {/* {JSON.stringify(books)} */}
+            <BookFilter onSetFilter={onSetFilter} />
+            <BookList books={books} onRemoveBook={onRemoveBook} onSelectBook={onSelectBook} />
 
-        <BookList books={books}/>
+        </div>}
+        {selectedBook && <BookDetails
+            book={selectedBook}
+            onGoBack={() => setSelectedBook(null)}
+
+        />}
 
     </section>
-    
+
 
 
 
